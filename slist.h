@@ -8,7 +8,11 @@ class SListIterator : public Iterator<T> {
     public: 
         SListIterator() : Iterator<T>() {};
         SListIterator(Node<T> *current) : Iterator<T>(current) {};
-        SListIterator<T> operator++();
+        SListIterator<T> operator++()
+        {
+            this->current = this->current->next;
+            return *this;
+        }
 };
 
 template <typename Tr>
@@ -28,23 +32,87 @@ class SList {
         };
 
         bool find(T search, Node<T> **&pointer) {
-            // TODO
+
+            pointer  = &head;
+
+            while((*pointer)->next!= NULL)
+            {
+                if((*pointer)->data == search)
+                {
+                    return true;
+                }
+                if(!cmp( (*pointer)->data, search))
+                {
+                    break;                    
+                }
+                pointer = &((*pointer)->next);
+            }
+            return false;
         }
              
+
         bool insert(T data) {
-            // TODO
+
+            Node<T> **temp = &head;
+
+            if(head == NULL)
+            {
+                head = new Node<T>(data);
+                head->next = NULL;
+                return true;
+            }
+
+            if(!find(data,temp))
+            {
+                Node<T> *new_node = new Node<T>(data);
+                if((*temp)->next == NULL)
+                {
+                    new_node->next = NULL;
+                    (*temp)->next = new_node;
+                    return true;
+                }
+                new_node->next = (*temp)->next;
+                (*temp)->next = new_node;
+                return true;
+            }
+            return false;
         }
              
+
         bool remove(T item) {
-            // TODO
+            Node<T> *temp = head;
+            Node<T> *current = head;
+            while(current!=NULL)
+            {
+                temp = current->next;
+                if (temp->data == item)
+                {
+                    current->next = temp->next;
+                    delete temp; 
+                    return true;
+                }
+                current = current->next;
+            }   
+
+            return false;
+
+
         }  
              
         iterator begin() {
-            // TODO
+            return iterator(head);
         }
              
         iterator end() {
-            // TODO
+            return iterator(NULL);
+            /*
+            Node<T> *temp = head;
+            while(temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+            return iterator(temp);
+            */
         }
              
         ~SList() {
