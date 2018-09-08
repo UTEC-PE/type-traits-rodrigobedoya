@@ -80,8 +80,17 @@ class SList {
              
 
         bool remove(T item) {
-            Node<T> *temp = head;
             Node<T> *current = head;
+
+
+            if (current->data == item)
+            {
+                head = head->next;
+                delete current;
+                return true;
+            }
+
+            Node<T> *temp = head;
             while(current!=NULL)
             {
                 temp = current->next;
