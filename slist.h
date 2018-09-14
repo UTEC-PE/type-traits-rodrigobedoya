@@ -51,7 +51,7 @@ class SList {
         }
              
 
-        bool insert(T data) {
+        bool insert(T data) { // No es necesario controlar el caso base aquí
 
             Node<T> **temp = &head;
 
@@ -79,7 +79,7 @@ class SList {
         }
              
 
-        bool remove(T item) {
+        bool remove(T item) { // No estás usando el find para el remove
             Node<T> *current = head;
 
 
